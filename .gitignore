@@ -1,3 +1,22 @@
-*/node_modules/*
+__pycache__/
+db.sqlite3
 
-env/*
+# migration
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+*.so
+*.vscode
+
+*/node_modules/*
+Model/*
