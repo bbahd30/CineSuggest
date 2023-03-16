@@ -1,0 +1,23 @@
+from django.db import models
+
+class Movie(models.Model):
+    budget = models.IntegerField()
+    genres = models.TextField()
+    homepage = models.URLField(max_length=200)
+    id = models.IntegerField(primary_key=True)
+    keywords = models.TextField()
+    original_language = models.CharField(max_length=2)
+    original_title = models.CharField(max_length=200)
+    overview = models.TextField()
+    popularity = models.FloatField()
+    production_companies = models.TextField()
+    production_countries = models.TextField()
+    release_date = models.DateField()
+    revenue = models.IntegerField()
+    runtime = models.IntegerField()
+    spoken_languages = models.TextField()
+    status = models.CharField(max_length=20)
+    tagline = models.CharField(max_length=200)
+    title = models.CharField(max_length=200)
+    vote_average = models.FloatField()
+    vote_count = models.IntegerField()
