@@ -8,7 +8,7 @@ const headers = {
     Authorization: "bearer " + TOKEN,
 }
 
-export const FetchMovies = (url, params) =>
+export const fetchMovies = (url, params) =>
 {
     try
     {

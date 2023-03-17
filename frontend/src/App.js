@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import MovieDetailPage from './Pages/MovieDetailPage'
 import MoviesPage from './Pages/MoviesPage'
-import { FetchMovies } from './Api/FetchMovies'
+import { fetchMovies } from './Api/fetchMovies'
 import HomePage from './Pages/HomePage'
 import { getMoviesData } from './Slices.js/movieSlice'
 import SearchPage from './Pages/SearchPage'
@@ -19,7 +19,7 @@ function App()
   const dispatch = useDispatch()
   const popularMovies = () =>
   {
-    FetchMovies("/movie/popular")
+    fetchMovies("/movie/popular")
       .then((response) =>
       {
         console.log(response)
