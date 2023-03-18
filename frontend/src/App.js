@@ -7,7 +7,7 @@ import MovieDetailPage from './Pages/MovieDetailPage'
 import MoviesPage from './Pages/MoviesPage'
 import { fetchMovies } from './Api/movieApi'
 import HomePage from './Pages/HomePage'
-import { getGenres, getMoviesData } from './Slices.js/movieSlice'
+import { getGenres, getMoviesData } from './Slices/movieSlice'
 import SearchPage from './Pages/SearchPage'
 import NotFoundPage from './Pages/NotFoundPage'
 import Header from './Components/Header'
@@ -55,7 +55,8 @@ function App()
         <Routes>
           <Route path="/" element={<MoviesPage />} />
           <Route path='/movies/:movieId' element={<MovieDetailPage />} />
-          <Route path='/search/:query' element={<SearchPage />} />
+          <Route path='/search' element={<SearchPage />} />
+          {/* <Route path='/search/:query' element={<SearchPage />} /> */}
           <Route path='/explore' element={<ExplorePage />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
