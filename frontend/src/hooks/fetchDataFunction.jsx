@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchMovies } from "../Api/movieApi";
 
-export const fetchDataFunction = (url) =>
+const useFetchData = (url) => 
 {
     const [data, setData] = useState(null)
     const [loading, setLoading] = useState(null)
@@ -24,10 +24,8 @@ export const fetchDataFunction = (url) =>
                 setLoading(false)
                 setError(error.message)
         })
-    })
-  return (
-    <div>
-          
-    </div>
-  )
+    }, [])
+  return {data, loading, error}
 }
+
+export default useFetchData
