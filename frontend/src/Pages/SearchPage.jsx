@@ -1,10 +1,15 @@
 import React from 'react';
+import { Box  } from '@mui/system';
+import Navbar from '../Components/Navbar';
 
 const SearchPage = () => {
     return (
-        <div>
-            Search
-        </div>
+        <>
+            <Navbar />
+            <Box sx={{}}>
+
+            </Box>
+        </>
     );
 };
 

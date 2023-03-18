@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import InfiniteScroll from "react-infinite-scroll-component";
 import SelectInput from "@mui/material/Select/SelectInput";
 import { Box } from "@mui/system";
 import { FormControl, InputLabel, MenuItem, Paper, Select } from '@mui/material';
-
+import { useDispatch } from "react-redux";
+import { fetchMoviesData } from "../Slices/movieCarouselSlice";
 
 import useFetchData from "../hooks/fetchDataFunction";
 import { fetchMovies } from "../Api/movieApi";
@@ -29,14 +29,18 @@ const sortbyData = [
 
 const ExplorePage = () =>
 {
+    const dispatch = useDispatch();
+    // const { data, loading, error } = useSelector((state) => state.movieCarousel);
     const [selectedOption, setSelectedOption] = useState([])
     const [sorting, setSorting] = useState("")
-    const [data, setData] = useState(null);
+    // const [data, setData] = useState(null);
     const [pageNum, setPageNum] = useState(1);
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
     const movieState = useSelector((state) => state.movies)
     const genre = movieState.genres
-
+    const { data, loading, error } = useSelector(
+      (state) => state.carousel
+    );
     const sortingOptions = [
     { value: "popularity.desc", label: "Decreasing Popularity" },
     { value: "popularity.asc", label: "Increasing Popularity" },
@@ -56,20 +60,23 @@ const ExplorePage = () =>
     }, [selectedOption])
 
     useEffect(() => {
-        fetchInitialData();
-    }, []);
-
+        dispatch(fetchMoviesData({ pageNum, selectedOption, sorting }));
+    }, [dispatch, pageNum, selectedOption, sorting]);
+    
     const fetchInitialData = () => {
-        setLoading(true);
-        console.log(filters)
-        fetchMovies("/discover/movie", filters).then((response) => {
-            setData(response?.data?.results);
-            console.log(response)
-            setPageNum((prev) => prev + 1);
-            setLoading(false);
-        });
+        dispatch(fetchMoviesData({ pageNum, filters }));
+
+        // fetchMovies("/discover/movie", filters).then((response) => {
+        //     setData(response?.data?.results);
+        //     console.log(response)
+        //     setPageNum((prev) => prev + 1);
+        // });
     };
 
+    useEffect(() => {
+        fetchInitialData();
+    }, []);
+    
     const handleChange = (event) => 
     {
         const selectedValues = Array.isArray(event.target.value)
@@ -95,22 +102,10 @@ const ExplorePage = () =>
         fetchInitialData();
     }
 
-    const fetchNextPageData = () => {
-        fetchMovies(
-            `/discover/movie?page=${pageNum}`,
-            filters
-        ).then((response) => {
-            if (response?.data?.results) {
-                setData(
-                    ...data,
-                    response.data.results
-                );
-            }
-            else
-                setData(response);
-            setPageNum((prev) => prev + 1);
-        });
-    };
+    // const fetchNextPageData = () => {
+    //     dispatch(fetchMoviesData({ pageNum, selectedOption, sorting }));
+    //     setPageNum((prev) => prev + 1);
+    // };
 
     return (
         <>
@@ -120,8 +115,8 @@ const ExplorePage = () =>
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 padding: '16px',
-                position: 'sticky',
-                margin: '64px'
+                // position: 'sticky',
+                marginTop: '60px'
             }}>
                 <div>
                 <Typography variant='h4' fontWeight="400" fontFamily="Poppins" fontSize="20px" sx={{color: 'black'}}>
@@ -182,7 +177,7 @@ const ExplorePage = () =>
                 {(
                     <>
                         {!loading && data?.length > 0 ? (
-                        <MovieCarousel data={data} />
+                        <MovieCarousel data={data} filters={filters} />
                         ) : (
                             <span className="resultNotFound">
                                 Sorry, Results not found!
@@ -194,4 +189,4 @@ const ExplorePage = () =>
     );
 };
 
-export default ExplorePage;
+export default ExplorePage
