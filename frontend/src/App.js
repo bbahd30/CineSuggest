@@ -5,47 +5,60 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import MovieDetailPage from './Pages/MovieDetailPage'
 import MoviesPage from './Pages/MoviesPage'
-import { fetchMovies } from './Api/fetchMovies'
+import { fetchMovies } from './Api/movieApi'
 import HomePage from './Pages/HomePage'
-import { getMoviesData } from './Slices.js/movieSlice'
+import { getGenres, getMoviesData } from './Slices/movieSlice'
 import SearchPage from './Pages/SearchPage'
 import NotFoundPage from './Pages/NotFoundPage'
 import Header from './Components/Header'
 import Footer from './Components/Footer'
-import MainLayout from './Components/MainLayout'
+import useFetchData from './hooks/fetchDataFunction'
+import ExplorePage from './Pages/ExplorePage'
 
 function App()
 {
   const dispatch = useDispatch()
-  const popularMovies = () =>
+  const { data, loading } = useFetchData("/genre/movie/list")
+  const fetchConfiguration = () =>
   {
-    fetchMovies("/movie/popular")
+    fetchMovies("/configuration")
       .then((response) =>
       {
-        console.log(response)
-        dispatch(getMoviesData(response.data))
+        const imgUrl = {
+          backdrop: response.data.images.secure_base_url + "original",
+          poster: response.data.images.secure_base_url + "poster",
+        }
+        dispatch(getMoviesData(imgUrl))
       })
   }
 
   useEffect(() => 
   {
-    popularMovies()
+    fetchConfiguration()
   }, [])
+
+  useEffect(() => 
+  {
+    const genresList = {}
+    if (data?.data?.genres)
+    {
+      data.data.genres?.map((item) => genresList[item.id] = item)
+      dispatch(getGenres(genresList))
+    }
+  }, [data])
 
   return (
     <div className="App">
-      {/* <BrowserRouter>
-        <Route path='/search/:query' element={<SearchPage />} />
-        <Header />
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<MoviesPage />} />
-          <Route path='/movies8/:movieId' element={<MovieDetailPage />} />
-          <Route path='/search/:query' element={<SearchPage />} />
+          <Route path='/movies/:movieId' element={<MovieDetailPage />} />
+          <Route path='/search' element={<SearchPage />} />
+          {/* <Route path='/search/:query' element={<SearchPage />} /> */}
+          <Route path='/explore' element={<ExplorePage />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
-        <Footer />
-      </BrowserRouter> */}
-      <MainLayout />
+      </BrowserRouter>
     </div>
   )
 }

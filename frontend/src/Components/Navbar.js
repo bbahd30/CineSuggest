@@ -1,40 +1,70 @@
-import { AppBar, IconButton, Toolbar, Stack } from '@mui/material';
-import { Box, display } from '@mui/system';
-import React from 'react';
+import { AppBar, Box, IconButton, Toolbar } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
 import MainLogo from './MainLogo';
-import MovieFilterIcon from '@mui/icons-material/MovieFilter';
-
+import { Link } from 'react-router-dom';
 
 const Navbar = () =>
 {
     return (
-        <AppBar elevation={0} sx={{ zIndex: 1000 }}>
-            <Toolbar sx={{ alignItems: "center", justifyContent: "space-between" }}>
-                <Stack direction="row" spacing={1} alignItems="center">
-                    <IconButton
-                        color='inherit'
-                        sx={{ mr: 2, display: { md: "none" } }}
-                    >
-                        <MovieFilterIcon />
-                    </IconButton>
-                    <Box sx={{
-                        display: {
-                            xs: "inline-block",
-                            md: "none"
-                        }
-                    }}>
-                        <MainLogo />
+        <div>
+            <AppBar
+                elevation={0}
+                sx={{
+                    zIndex: 1000,
+                    backgroundColor: '#212121',
+                }}
+            >
+                <Toolbar
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                    }}
+                >
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <IconButton color="inherit" sx={{ mr: 2, display: { md: "none" } }}>
+                            <MenuIcon />
+                        </IconButton>
+                        <Link
+                            to="/"
+                            style={{
+                                textDecoration: 'none',
+                                color: 'white',
+                                fontWeight: 'bold',
+                            }}
+                        >
+                            <MainLogo />
+                        </Link>
                     </Box>
-                </Stack>
 
-                <Box flexGrow={1} alignItems="center" display={{ xs: "none", md: "flex" }}>
-                    <Box sx={{ marginRight: "30px" }}>
-                        fdjflsfjlsdkfjls
-                        lfjsdfl
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Link
+                            to="/explore/"
+                            style={{
+                                textDecoration: 'none',
+                                color: 'white',
+                                fontWeight: 'bold',
+                                marginRight: '30px',
+                            }}
+                        >
+                            Explore
+                        </Link>
+                        <Link
+                            to="/search/"
+                            style={{
+                                textDecoration: 'none',
+                                color: 'white',
+                                fontWeight: 'bold',
+                                marginRight: '30px',
+                            }}
+                        >
+                            Browse
+                        </Link>
+                        {/* <MainLogo sx={{ display: { xs: 'block', md: 'none' } }} /> */}
                     </Box>
-                </Box>
-            </Toolbar>
-        </AppBar>
+                </Toolbar>
+            </AppBar>
+        </div>
     );
 };
 
