@@ -4,8 +4,8 @@ import SelectInput from "@mui/material/Select/SelectInput";
 import { Box } from "@mui/system";
 import { FormControl, InputLabel, MenuItem, Paper, Select } from '@mui/material';
 import { useDispatch } from "react-redux";
-import { fetchMoviesData } from "../Slices/movieCarouselSlice";
-
+import { fetchMoviesData, resetData, setPage } from "../Slices/movieCarouselSlice";
+import Container from '../Components/Container'
 import useFetchData from "../hooks/fetchDataFunction";
 import { fetchMovies } from "../Api/movieApi";
 import { Typography } from "@mui/material";
@@ -29,18 +29,14 @@ const sortbyData = [
 
 const ExplorePage = () =>
 {
-    const dispatch = useDispatch();
-    // const { data, loading, error } = useSelector((state) => state.movieCarousel);
+    const dispatch = useDispatch()
+    const carouselState = useSelector((state) => state.carousel)
+    const pageState = carouselState.pageNum
     const [selectedOption, setSelectedOption] = useState([])
     const [sorting, setSorting] = useState("")
-    // const [data, setData] = useState(null);
-    const [pageNum, setPageNum] = useState(1);
-    // const [loading, setLoading] = useState(false);
+    const [data, setData] = useState(null);
     const movieState = useSelector((state) => state.movies)
     const genre = movieState.genres
-    const { data, loading, error } = useSelector(
-      (state) => state.carousel
-    );
     const sortingOptions = [
     { value: "popularity.desc", label: "Decreasing Popularity" },
     { value: "popularity.asc", label: "Increasing Popularity" },
@@ -52,29 +48,29 @@ const ExplorePage = () =>
     },
     { value: "primary_release_date.asc", label: "Release Date Ascending" },
     { value: "original_title.asc", label: "Title (A-Z)" },
-    ];
-    
-    useState(() =>
+    ]
+
+    const fetchData = () =>
     {
-        console.log(selectedOption)
-    }, [selectedOption])
-
-    useEffect(() => {
-        dispatch(fetchMoviesData({ pageNum, selectedOption, sorting }));
-    }, [dispatch, pageNum, selectedOption, sorting]);
-    
-    const fetchInitialData = () => {
-        dispatch(fetchMoviesData({ pageNum, filters }));
-
-        // fetchMovies("/discover/movie", filters).then((response) => {
-        //     setData(response?.data?.results);
-        //     console.log(response)
-        //     setPageNum((prev) => prev + 1);
-        // });
+        dispatch(fetchMoviesData({
+            pageState, filters
+        }))
     };
+    useEffect(() => 
+    {
+      fetchData();
+    }, [pageState]);
+
+
+    useEffect(() =>
+    {
+        setData(carouselState.data)
+    }, [carouselState.data])
 
     useEffect(() => {
-        fetchInitialData();
+        dispatch(fetchMoviesData({
+            pageState, filters
+        }))
     }, []);
     
     const handleChange = (event) => 
@@ -85,8 +81,9 @@ const ExplorePage = () =>
         setSelectedOption(selectedValues);
         const genreIds = JSON.stringify(selectedValues).slice(1, -1);
         filters.with_genres = genreIds;
-        setPageNum(1);
-        fetchInitialData();
+        fetchData();
+        dispatch(setPage({page: 1}))
+        dispatch(resetData())
     };
 
     const handleSorting = (event, action) => 
@@ -98,25 +95,22 @@ const ExplorePage = () =>
         }
         else
             delete filters.sort_by;
-        setPageNum(1);
-        fetchInitialData();
+        fetchData();
+        dispatch(setPage({ page: 1 }))
+        dispatch(resetData())
     }
-
-    // const fetchNextPageData = () => {
-    //     dispatch(fetchMoviesData({ pageNum, selectedOption, sorting }));
-    //     setPageNum((prev) => prev + 1);
-    // };
 
     return (
         <>
             <Navbar />
-           <Paper elevation={8} sx={{
+            <Container>
+            <Paper elevation={8} sx={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 padding: '16px',
                 // position: 'sticky',
-                marginTop: '60px'
+                marginTop: '9rem'
             }}>
                 <div>
                 <Typography variant='h4' fontWeight="400" fontFamily="Poppins" fontSize="20px" sx={{color: 'black'}}>
@@ -176,15 +170,16 @@ const ExplorePage = () =>
             </Paper>
                 {(
                     <>
-                        {!loading && data?.length > 0 ? (
+                        {data?.length > 0 ? (
                         <MovieCarousel data={data} filters={filters} />
                         ) : (
                             <span className="resultNotFound">
-                                Sorry, Results not found!
+                                No results found!
                             </span>
                         )}
                     </>
                 )}
+            </Container>
         </>
     );
 };

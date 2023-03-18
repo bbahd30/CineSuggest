@@ -1,16 +1,15 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchMovies } from "../Api/movieApi";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import { fetchMovies } from "../Api/movieApi"
 
 export const fetchMoviesData = createAsyncThunk(
     "movies/fetchMoviesData",
-    async ({ pageNum, filters }) =>
+    async ({ pageState, filters }, { dispatch }) =>
     {
-        console.log(filters)
-        const response = await fetchMovies(`/discover/movie?page=${pageNum}`, filters);
-        const payload = {
+        console.log(pageState, filters)
+        const response = await fetchMovies(`/discover/movie?page=${pageState}`, filters);
+        return {
             data: response.data.results,
         };
-        return payload;
     }
 );
 
@@ -24,10 +23,13 @@ const movieCarouselSlice = createSlice({
         error: null,
     },
     reducers: {
-        setScrolling: (state, action) => 
+        setPage: (state, action) => 
         {
-            state.pageNum = action.payload['pageNum']
-            state.filters = action.payload['filters']
+            state.pageNum = action.payload['page']
+        },
+        resetData: (state) =>
+        {
+            state.data = []
         }
 
     },
@@ -36,21 +38,20 @@ const movieCarouselSlice = createSlice({
         builder
             .addCase(fetchMoviesData.pending, (state) =>
             {
-                state.loading = true;
+                state.loading = true
             })
             .addCase(fetchMoviesData.fulfilled, (state, action) =>
             {
-                state.loading = false;
-                state.data = action.payload.data;
-                state.pageNum += 1;
+                state.loading = false
+                state.data = [...state.data, ...action.payload.data]
             })
             .addCase(fetchMoviesData.rejected, (state, action) =>
             {
-                state.loading = false;
-                state.error = action.error.message;
-            });
+                state.loading = false
+                state.error = action.error.message
+            })
     },
-});
+})
 
-export const { setScrolling } = movieCarouselSlice.actions
-export default movieCarouselSlice.reducer;
+export const { setPage, resetData } = movieCarouselSlice.actions
+export default movieCarouselSlice.reducer

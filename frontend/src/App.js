@@ -12,7 +12,6 @@ import SearchPage from './Pages/SearchPage'
 import NotFoundPage from './Pages/NotFoundPage'
 import Header from './Components/Header'
 import Footer from './Components/Footer'
-import MainLayout from './Components/MainLayout'
 import useFetchData from './hooks/fetchDataFunction'
 import ExplorePage from './Pages/ExplorePage'
 
@@ -50,7 +49,6 @@ function App()
 
   return (
     <div className="App">
-      <Header />
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MoviesPage />} />
@@ -61,8 +59,6 @@ function App()
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
-      <Footer />
-      {/* <MainLayout /> */}
     </div>
   )
 }

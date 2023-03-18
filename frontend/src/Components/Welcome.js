@@ -35,6 +35,7 @@ const Welcome = () =>
                 <Box sx={{
                     position: "relative",
                     color: "black",
+                    marginTop: '70px',
                     backgroundImage: "linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0))",
                 }} >
                     <Swiper
