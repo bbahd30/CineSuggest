@@ -26,6 +26,7 @@ function App()
       {
         const imgUrl = {
           backdrop: response.data.images.secure_base_url + "original",
+          poster: response.data.images.secure_base_url + "poster",
         }
         dispatch(getMoviesData(imgUrl))
       })

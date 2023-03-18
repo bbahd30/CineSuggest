@@ -7,7 +7,9 @@ const CircularRating = (props) =>
     return (
         <Box sx={{
             position: 'relative',
-            display: 'inline-flex'
+            display: 'inline-flex',
+            borderRadius: '50%',
+            backgroundColor: 'black',
         }}>
             <CircularProgress
                 value={props.value * 10}
@@ -46,7 +48,7 @@ const CircularRating = (props) =>
                 }}
             >
                 <Typography variant="h6" component="div" sx={{ color: 'white' }}>
-                    {props.value}
+                    {Math.floor(props.value * 10) / 10}
                 </Typography>
             </Box>
         </Box>
