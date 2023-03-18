@@ -9,7 +9,7 @@ export const genreSlice = createSlice({
     reducers: {
         getMoviesData: (state, action) =>
         {
-            state.url = action.payload['backdrop']
+            state.url = action.payload
         },
         getGenres: (state, action) => 
         {

@@ -23,7 +23,7 @@ const Welcome = () =>
     const [movies, setMovies] = useState([])
     const movieState = useSelector((state) => state.movies)
 
-    const { data, loading } = useFetchData("/movie/popular")
+    const { data, loading } = useFetchData("/movie/upcoming")
     useEffect(() =>
     {
         setMovies(data?.data?.results || [])
@@ -34,8 +34,9 @@ const Welcome = () =>
             {!loading &&
                 <Box sx={{
                     position: "relative",
-                    color: "black"
-                }}>
+                    color: "black",
+                    backgroundImage: "linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0))",
+                }} >
                     <Swiper
                         grabCursor={true}
                         loop={true}
@@ -60,7 +61,7 @@ const Welcome = () =>
                                     },
                                     backgroundPosition: "top",
                                     backgroundSize: "cover",
-                                    backgroundImage: `url(${movieState.url + movie.backdrop_path})`,
+                                    backgroundImage: `url(${movieState.url.backdrop + movie.backdrop_path})`,
                                     "&::before": {
                                         content: "''",
                                         position: "absolute",
@@ -142,6 +143,10 @@ const Welcome = () =>
                         }
                     </Swiper>
                 </Box>}
+            {/* <Box sx={{
+                height: { sm: "10px", md: "5rem", lg: "4rem" },
+                backgroundImage: "linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0))"
+            }} /> */}
         </>
     );
 };
