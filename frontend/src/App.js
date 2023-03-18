@@ -14,6 +14,7 @@ import Header from './Components/Header'
 import Footer from './Components/Footer'
 import MainLayout from './Components/MainLayout'
 import useFetchData from './hooks/fetchDataFunction'
+import ExplorePage from './Pages/ExplorePage'
 
 function App()
 {
@@ -55,7 +56,7 @@ function App()
           <Route path="/" element={<MoviesPage />} />
           <Route path='/movies/:movieId' element={<MovieDetailPage />} />
           <Route path='/search/:query' element={<SearchPage />} />
-          {/* <Route path='/search/:query' element={<SearchPage />} /> */}
+          <Route path='/explore' element={<ExplorePage />} />
           <Route path='*' element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

@@ -4,6 +4,7 @@ import React from 'react';
 import MainLogo from './MainLogo';
 import MenuIcon from '@mui/icons-material/Menu';
 import MovieFilterIcon from '@mui/icons-material/MovieFilter';
+import { Link } from 'react-router-dom';
 
 const Navbar = () =>
 {
@@ -31,6 +32,9 @@ const Navbar = () =>
                     <Box sx={{ marginRight: "30px" }}>
                         <MainLogo />
                     </Box>
+                    <Link to="/explore/" style={{ textDecoration: 'none', color: 'white' }}>
+                        Explore
+                    </Link>
                 </Box>
             </Toolbar>
         </AppBar>
