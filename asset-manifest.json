@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/CineSuggest/static/css/main.7803c8f0.css",
+    "main.js": "/CineSuggest/static/js/main.adc1fcdc.js",
+    "index.html": "/CineSuggest/index.html",
+    "main.7803c8f0.css.map": "/CineSuggest/static/css/main.7803c8f0.css.map",
+    "main.adc1fcdc.js.map": "/CineSuggest/static/js/main.adc1fcdc.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7803c8f0.css",
+    "static/js/main.adc1fcdc.js"
+  ]
+}
