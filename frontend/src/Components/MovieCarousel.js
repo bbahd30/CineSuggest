@@ -19,7 +19,6 @@ const MovieCarousel = (props) =>
 
     const handleReachEnd = () =>
     {
-        console.log("naya ")
         dispatch(setPage({
             page: page + 1
         }));

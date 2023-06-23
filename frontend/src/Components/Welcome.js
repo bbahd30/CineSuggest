@@ -15,7 +15,6 @@ import "swiper/css/navigation"
 import "swiper/css/pagination"
 import { CircularProgress } from '@mui/material';
 import CircularRating from './CircularRating';
-import ContentWrapper from './ContentWrapper';
 
 const Welcome = () =>
 {
@@ -35,7 +34,7 @@ const Welcome = () =>
                 <Box sx={{
                     position: "relative",
                     color: "black",
-                    marginTop: '70px',
+                    marginTop: '5.9rem',
                     backgroundImage: "linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0))",
                 }} >
                     <Swiper
